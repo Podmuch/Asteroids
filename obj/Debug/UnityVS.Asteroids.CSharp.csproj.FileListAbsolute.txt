@@ -1,0 +1,9 @@
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Dominik\Documents\GitHub\Asteroids\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Dominik\Documents\GitHub\Asteroids\obj\Debug\UnityVS.Asteroids.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Dominik\Documents\GitHub\Asteroids\obj\Debug\Assembly-CSharp.dll
+C:\Users\Dominik\Documents\GitHub\Asteroids\obj\Debug\Assembly-CSharp.pdb
