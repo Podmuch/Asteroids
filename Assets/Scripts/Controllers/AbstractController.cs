@@ -13,7 +13,8 @@ namespace Asteroids.Controller
         protected AbstractView view;
         protected void OnGUI()
         {
-            view.Draw(model.DrawParams);
+            if(model!=null)
+                view.Draw(model.DrawParams);
         }
     }
 }

@@ -51,11 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Controllers\AbstractController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AsteroidController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\BulletController.cs" />
     <Compile Include="Assets\Scripts\Controllers\HighscoreController.cs" />
     <Compile Include="Assets\Scripts\Controllers\MovableObjectController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayButtonController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IMonster.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IShooter.cs" />
     <Compile Include="Assets\Scripts\Models\AbstractModel.cs" />
+    <Compile Include="Assets\Scripts\Models\AsteroidModel.cs" />
+    <Compile Include="Assets\Scripts\Models\BulletModel.cs" />
     <Compile Include="Assets\Scripts\Models\ButtonModel.cs" />
     <Compile Include="Assets\Scripts\Models\HighscoreModel.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDestructible.cs" />
@@ -65,6 +71,7 @@
     <Compile Include="Assets\Scripts\Views\ButtonView.cs" />
     <Compile Include="Assets\Scripts\Views\HighscoreView.cs" />
     <Compile Include="Assets\Scripts\Views\MovableObjectView.cs" />
+    <Compile Include="Assets\Scripts\Views\StaticExplosion.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />

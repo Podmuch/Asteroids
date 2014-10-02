@@ -14,16 +14,13 @@ namespace Asteroids.MovableObject
         private int currentTexture;
         private Timer textureChangeRateTimer;
         private bool isChangeTextureAvailable;
-        private bool isReceivedDrawParams;
 
         public MovableObjectView(Renderer _renderer, Texture2D[] _textureArray)
         {
             renderer = _renderer;
             textureArray = _textureArray;
             currentTexture = 0;
-            isReceivedDrawParams = false;
-            textureChangeRateTimer = new Timer();
-            textureChangeRateTimer.Interval = 50;
+            textureChangeRateTimer = new Timer(50);
             textureChangeRateTimer.Elapsed += TextureRate;
             textureChangeRateTimer.Start();
         }
@@ -37,11 +34,11 @@ namespace Asteroids.MovableObject
         {
             if (isChangeTextureAvailable)
             {
-                if (drawParams != null&&!isReceivedDrawParams)
+                if (drawParams != null)
                 {
                     textureArray = drawParams as Texture2D[];
                     currentTexture = 0;
-                    isReceivedDrawParams = true;
+                    textureChangeRateTimer.Interval = 30;
                 }
                 renderer.material.mainTexture=textureArray[currentTexture];
                 currentTexture = (currentTexture + 1) % textureArray.Length;

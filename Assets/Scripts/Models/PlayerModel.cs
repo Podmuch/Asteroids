@@ -9,13 +9,19 @@ namespace Asteroids.MovableObject.Player
     public class PlayerModel : MovableObjectModel, IDestructible
     {
         public int Lives{get;set;}
-        public int score;
+        public int score {get;set;}
+        public bool stopMove { get; set; }
 
         public override object DrawParams
         {
             get 
             {
-                return _drawParams;
+                if(_drawParams==null)
+                    return _drawParams;
+                object tmp = _drawParams;
+                _drawParams = null;
+                return tmp;
+
             }
         }
         private object _drawParams = null;
@@ -42,17 +48,7 @@ namespace Asteroids.MovableObject.Player
                 return Input.GetKey(KeyCode.UpArrow);
             }
         }
-        private bool isShoot
-        {
-            get
-            {
-                return Input.GetKey(KeyCode.Space);
-            }
-        }
-        private int whichQuarter(float rotation)
-        {
-            return Mathf.RoundToInt(rotation) / 90;
-        }
+
         public PlayerModel(Transform _objectTransform)
         {
             Lives = 3;
@@ -66,6 +62,8 @@ namespace Asteroids.MovableObject.Player
 
         public override void Move()
         {
+            if (stopMove)
+                return;
             //Update Rotation if player is pressing key
             Vector3 rotation = objectTransform.rotation.eulerAngles;
             if (isTurnLeft ^ isTurnRight)
@@ -79,29 +77,7 @@ namespace Asteroids.MovableObject.Player
                 int acuteAngle = Mathf.RoundToInt(rotation.z) % 90;
                 Vector2 deltaSpeed = new Vector2(Mathf.Cos(Mathf.Deg2Rad* (90 - acuteAngle)) * acceleration,
                                                  Mathf.Cos(Mathf.Deg2Rad * acuteAngle) * acceleration);
-                float swapTmp;
-                switch (whichQuarter(rotation.z))
-                {
-                    // 0 | 3
-                    // -----  Number of Quarter
-                    // 1 | 2
-                    case 2:
-                        deltaSpeed.y = -deltaSpeed.y;
-                        break;
-                    case 3:
-                        swapTmp= deltaSpeed.x;
-                        deltaSpeed.x = deltaSpeed.y;
-                        deltaSpeed.y = swapTmp;
-                        break;
-                    case 0:
-                        deltaSpeed.x = -deltaSpeed.x;
-                        break;
-                    case 1:
-                        swapTmp = -deltaSpeed.x;
-                        deltaSpeed.x =-deltaSpeed.y;
-                        deltaSpeed.y = swapTmp;
-                        break;
-                }
+                deltaSpeed=CorrectSpeedDirection(deltaSpeed);
                 if ((speed + deltaSpeed).magnitude < maxSpeed)
                     speed += deltaSpeed;
                 else
@@ -114,6 +90,8 @@ namespace Asteroids.MovableObject.Player
         public void Destruct(Texture2D[] explosionTextureArray)
         {
             _drawParams = explosionTextureArray;
+            speed = Vector2.zero;
+            Lives--;
         }
     }
 }

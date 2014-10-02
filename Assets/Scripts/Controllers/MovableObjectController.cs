@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Timers;
 using Asteroids.Controller;
+using Asteroids.Interface;
 
 namespace Asteroids.MovableObject
 {
@@ -15,8 +16,7 @@ namespace Asteroids.MovableObject
         protected virtual void Awake()
         {
             view = new MovableObjectView(renderer, textureArray);
-            moveRateTimer = new Timer();
-            moveRateTimer.Interval = 10;
+            moveRateTimer = new Timer(10);
             moveRateTimer.Elapsed += MoveRate;
             moveRateTimer.Start();
         }
@@ -28,7 +28,7 @@ namespace Asteroids.MovableObject
 
         protected virtual void Update()
         {
-            if (isMoveActive)
+            if (isMoveActive&&model!=null)
             {
                 (model as MovableObjectModel).Move();
                 isMoveActive = false;

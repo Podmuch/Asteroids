@@ -43,7 +43,10 @@ namespace Asteroids.MovableObject
         }
         private static Vector2 leftTopCorner= new Vector2(-12.2f,5.2f);
         private static Vector2 rightBottomCorner= new Vector2(12.2f,-5.2f);
-
+        private int whichQuarter(float rotation)
+        {
+            return Mathf.RoundToInt(rotation) / 90;
+        }
         protected void Wrapping()
         {
             Vector3 currentPosition= objectTransform.position;
@@ -54,6 +57,33 @@ namespace Asteroids.MovableObject
             objectTransform.position = currentPosition;
         }
 
+        protected Vector2 CorrectSpeedDirection(Vector2 deltaSpeed)
+        {
+            float swapTmp;
+            switch (whichQuarter(objectTransform.eulerAngles.z))
+            {
+                // 0 | 3
+                // -----  Number of Quarter
+                // 1 | 2
+                case 2:
+                    deltaSpeed.y = -deltaSpeed.y;
+                    break;
+                case 3:
+                    swapTmp = deltaSpeed.x;
+                    deltaSpeed.x = deltaSpeed.y;
+                    deltaSpeed.y = swapTmp;
+                    break;
+                case 0:
+                    deltaSpeed.x = -deltaSpeed.x;
+                    break;
+                case 1:
+                    swapTmp = -deltaSpeed.x;
+                    deltaSpeed.x = -deltaSpeed.y;
+                    deltaSpeed.y = swapTmp;
+                    break;
+            }
+            return deltaSpeed;
+        }
         public abstract void Move();
     }
 }

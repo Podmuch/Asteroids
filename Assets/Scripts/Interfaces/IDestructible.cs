@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Asteroids.Model;
 
 namespace Asteroids.Interface
 {
     public interface IDestructible
     {
-        //po smierci musze stworzyc nowy view
         int Lives { get; set; }
         void Destruct(Texture2D[] explosionTextureArray);
     }
