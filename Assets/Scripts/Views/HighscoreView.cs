@@ -18,10 +18,10 @@ namespace Asteroids.Highscore
             recordSize = new Vector2(Screen.width * 0.2f, Screen.height * 0.07f);
             recordMargin = new Vector2(Screen.width * 0.15f,Screen.height * 0.2f);
             style = new GUIStyle();
-            style.normal.textColor = Color.white;
-            style.hover.textColor = Color.yellow;
-            style.stretchHeight = true;
-            style.stretchWidth = true;
+            //style.normal.textColor = Color.white;
+            //style.hover.textColor = Color.yellow;
+            //style.stretchHeight = true;
+            //style.stretchWidth = true;
             style.wordWrap = true;
         }
 
