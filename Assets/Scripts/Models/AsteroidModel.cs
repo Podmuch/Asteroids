@@ -1,26 +1,14 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Asteroids.Interface;
 
-namespace Asteroids.MovableObject.Asteroid
+namespace Asteroids.MovableObject.Enemy.Asteroid
 {
-    public class AsteroidModel : MovableObjectModel, IDestructible
+    public class AsteroidModel : EnemyModel
     {
-        public int Lives { get; set; }
-        public override object DrawParams
-        {
-            get
-            {
-                return _drawParams;
-            }
-        }
-        private object _drawParams = null;
-
         public AsteroidModel(Transform _objectTransform, int _lives) 
         {
+            isDestroyed = false;
             Lives = _lives;
+            Points = 100;
             _objectTransform.localScale *= Lives;
             objectTransform = _objectTransform;
             int acuteAngle = Mathf.RoundToInt(objectTransform.eulerAngles.z) % 90;
@@ -29,18 +17,6 @@ namespace Asteroids.MovableObject.Asteroid
             maxSpeed=0.03f;
             speed = CorrectSpeedDirection(speed);
             speed=speed.normalized*maxSpeed;
-        }
-
-        public override void Move()
-        {  
-            //Update position
-            objectTransform.position += (Vector3)speed;
-            Wrapping();
-        }
-        public void Destruct(Texture2D[] explosionTextureArray)
-        {
-            _drawParams = explosionTextureArray;
-            speed = Vector2.zero;
         }
     }
 }

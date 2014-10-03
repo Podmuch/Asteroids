@@ -1,32 +1,26 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Timers;
 using Asteroids.View.Explosion;
-using Asteroids.MovableObject.Bullet;
-using Asteroids.MovableObject.Player;
+using Asteroids.Controller;
+using Asteroids.Interface;
 
-namespace Asteroids.MovableObject.Asteroid
+namespace Asteroids.MovableObject.Enemy.Asteroid
 {
     public class AsteroidController : MovableObjectController
     {
-        public bool isDestroyed = false;
-        private int points;
+        
         private StaticExplosion explosion;
 
         public void AddModel(int lives)
         {
             model= new AsteroidModel(transform, lives);
             explosion = FindObjectOfType<StaticExplosion>();
-            points = 100;
-        }
-        protected override void Update()
-        {
-            if (model == null) AddModel(3); //tmp
-            base.Update();            
         }
 
+        protected override void Update()
+        {
+            if ((model as AsteroidModel) == null) AddModel(3);
+            base.Update();
+        }
         private void Fragmentation(int fragments)
         {
             if((model as AsteroidModel).Lives>1)
@@ -34,31 +28,32 @@ namespace Asteroids.MovableObject.Asteroid
                 for(int i=0;i<fragments;i++)
                 {
                     Transform pieceOfAsteroid = (Transform)Instantiate(transform, transform.position, transform.rotation);
-                    pieceOfAsteroid.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
+                    pieceOfAsteroid.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
                     pieceOfAsteroid.transform.localScale = new Vector3(1, 1, 1);
-                    pieceOfAsteroid.gameObject.GetComponent<AsteroidController>().AddModel((model as AsteroidModel).Lives-1);
-                    
+                    pieceOfAsteroid.gameObject.GetComponent<AsteroidController>().AddModel((model as AsteroidModel).Lives);  
                 }
             }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!isDestroyed)
+            if (!(model as AsteroidModel).isDestroyed)
             {
                 switch (other.tag)
                 {
                     case "Bullet":
-                        bool bluecolor = other.GetComponent<BulletController>().isBlue;
-                        (model as AsteroidModel).Destruct(bluecolor ? explosion.blueExplosion : explosion.redExplosion);
-                        Fragmentation(2);
-                        FindObjectOfType<PlayerController>().AddPoints(points * (model as AsteroidModel).Lives);
-                        Destroy(gameObject, 1);
-                        isDestroyed = true;
+                        IPlayer bulletOwner = (other.GetComponent<AbstractController>().model as IBullet).Owner.model as IPlayer;
+                        if (bulletOwner != null && !(other.GetComponent<AbstractController>().model as IBullet).isDestroyed)
+                        {
+                            (other.GetComponent<AbstractController>().model as IBullet).isDestroyed = true;
+                            bulletOwner.Score += ((model as AsteroidModel).Points * (model as AsteroidModel).Lives);
+                            (model as AsteroidModel).Destruct(bulletOwner != null ? explosion.blueExplosion : explosion.redExplosion);
+                            Fragmentation(2);
+                            Destroy(gameObject, 1);
+                        }
                         break;
                 }
             }
         }
-        
     }
 }

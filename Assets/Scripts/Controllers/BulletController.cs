@@ -1,31 +1,35 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Asteroids.Interface;
 using Asteroids.View.Explosion;
-using System.Timers;
 
 namespace Asteroids.MovableObject.Bullet
 {
     public class BulletController : MovableObjectController
     {
-        public bool isBlue;
+        private StaticExplosion explosion;
         protected override void Awake()
         {
             base.Awake();
             model = new BulletModel(transform);
+            explosion = FindObjectOfType<StaticExplosion>();
         }
 
         protected override void Update()
         {
             base.Update();
             if ((model as BulletModel).range < 0)
-                Destroy(gameObject);     
+                Death();     
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            (model as BulletModel).range = -1;
+            Death();
+        }
+
+        private void Death() 
+        {
+            (model as BulletModel).Destruct((model as BulletModel).Owner.model as IPlayer != null ? explosion.blueExplosion : explosion.redExplosion);
+            Destroy(gameObject, 0.5f);
         }
     }
 }

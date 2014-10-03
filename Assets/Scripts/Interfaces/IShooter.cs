@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Timers;
-using Asteroids.MovableObject.Bullet;
 
 namespace Asteroids.Interface
 {

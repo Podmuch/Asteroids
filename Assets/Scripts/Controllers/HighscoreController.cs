@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Asteroids.Controller;
+﻿using Asteroids.Controller;
 
 namespace Asteroids.Highscore
 {

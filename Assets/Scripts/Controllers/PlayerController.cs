@@ -1,13 +1,8 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 using Asteroids.Controller;
 using Asteroids.Interface;
-using Asteroids.MovableObject.Bullet;
 using Asteroids.View.Explosion;
-using Asteroids.MovableObject.Asteroid;
 
 namespace Asteroids.MovableObject.Player
 {
@@ -16,23 +11,18 @@ namespace Asteroids.MovableObject.Player
         public Transform bullet;
         private Timer ShootRateTimer;
         private bool isShootActive;
-        private bool isDestroyed;
         private Timer DyingAnimationTimer;
-        private bool isAnimationEnd = false;
         private StaticExplosion explosion;
         protected override void Awake()
         {
             base.Awake();
             model = new PlayerModel(transform);
             isShootActive = false;
-            isDestroyed = false;
             explosion = FindObjectOfType<StaticExplosion>();
-            ShootRateTimer = new Timer();
-            ShootRateTimer.Interval = 500;
+            ShootRateTimer = new Timer(500);
             ShootRateTimer.Elapsed += ShootRate;
             ShootRateTimer.Start();
-            DyingAnimationTimer = new Timer();
-            DyingAnimationTimer.Interval = 500;
+            DyingAnimationTimer = new Timer(500);
             DyingAnimationTimer.Elapsed += AnimationTime;
         }
 
@@ -40,26 +30,20 @@ namespace Asteroids.MovableObject.Player
         {
             base.Update();
             Shoot();
-            if (isAnimationEnd)
-            {
-                view = new MovableObjectView(renderer, textureArray);
-                DyingAnimationTimer.Stop();
-                isDestroyed = false;
-                isAnimationEnd = false;
-            }
         }
         public bool isShoot
         {
             get
             {
-                return Input.GetKey(KeyCode.Space);
+                return Input.GetKey(KeyCode.Space)&&isShootActive&&!(model as PlayerModel).isDestroyed;
             }
         }
         public void Shoot()
         {
-            if(isShoot&&isShootActive)
+            if(isShoot)
             {
                 Transform bulletPointer=(Transform)Instantiate(bullet, transform.position, transform.rotation);
+                (bulletPointer.GetComponent<AbstractController>().model as IBullet).Owner = this;
                 bulletPointer.Translate(0, 0.5f, 0);
                 isShootActive = false;
             }
@@ -70,23 +54,19 @@ namespace Asteroids.MovableObject.Player
             isShootActive = true;
         }
 
-        public void AddPoints(int points) 
-        {
-            (model as PlayerModel).score += points;
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!isDestroyed)
+            if (!(model as PlayerModel).isDestroyed)
             {
                 switch (other.tag)
                 {
                     case "Enemy":
-                        if (!other.GetComponent<AsteroidController>().isDestroyed)
+                        if (!(other.GetComponent<AbstractController>().model as IEnemy).isDestroyed)
                             Death();
                         break;
                     case "Bullet":
-                        if (!other.GetComponent<BulletController>().isBlue)
+                        if ((other.GetComponent<AbstractController>().model as IBullet).Owner.model as IPlayer==null&&
+                            !(other.GetComponent<AbstractController>().model as IBullet).isDestroyed)
                             Death();
                         break;
                 }
@@ -96,14 +76,14 @@ namespace Asteroids.MovableObject.Player
         {
             (model as PlayerModel).Destruct(explosion.redExplosion);
             DyingAnimationTimer.Start();
-            (model as PlayerModel).Lives--;
-            (model as PlayerModel).stopMove = true;
         }
 
         private void AnimationTime(object sender, ElapsedEventArgs e)
         {
-            isAnimationEnd = true;
             (model as PlayerModel).stopMove = false;
+            (view as MovableObjectView).ResetView(textureArray);
+            (model as PlayerModel).isDestroyed = false;
+            DyingAnimationTimer.Stop();  
         }
     }
 }

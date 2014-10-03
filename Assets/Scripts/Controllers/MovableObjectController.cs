@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 using Asteroids.Controller;
-using Asteroids.Interface;
 
 namespace Asteroids.MovableObject
 {

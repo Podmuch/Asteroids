@@ -1,22 +1,16 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Asteroids.Controller;
 using Asteroids.Interface;
 
 namespace Asteroids.MovableObject.Bullet
 {
-    public class BulletModel : MovableObjectModel
+    public class BulletModel : MovableObjectModel, IBullet
     {
+        public int Lives { get; set; }
+        public bool isDestroyed { get; set; }
+        public AbstractController Owner { get; set; }
+
         public float range;
-        public override object DrawParams
-        {
-            get
-            {
-                return null;
-            }
-        }
 
         public BulletModel(Transform _objectTransform) 
         {
@@ -36,6 +30,11 @@ namespace Asteroids.MovableObject.Bullet
             objectTransform.position += (Vector3)speed;
             range -= speed.magnitude;
             Wrapping();
+        }
+        public void Destruct(Texture2D[] explosionTextureArray) 
+        {
+            DrawParams = explosionTextureArray;
+            speed = Vector2.zero;
         }
     }
 }

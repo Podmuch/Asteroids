@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Asteroids.Model;
 
 namespace Asteroids.MovableObject
@@ -56,7 +53,6 @@ namespace Asteroids.MovableObject
             if (isOutofBottom) currentPosition.y = leftTopCorner.y - 0.2f;
             objectTransform.position = currentPosition;
         }
-
         protected Vector2 CorrectSpeedDirection(Vector2 deltaSpeed)
         {
             float swapTmp;

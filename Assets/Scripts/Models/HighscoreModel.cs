@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Asteroids.Model;
@@ -8,6 +7,7 @@ namespace Asteroids.Highscore
 {
     public class HighscoreModel : AbstractModel
     {
+
         private static string highscore = null;
         public HighscoreModel()
         {
@@ -16,19 +16,12 @@ namespace Asteroids.Highscore
                 highscore = PlayerPrefs.GetString("highscore");
                 if (highscore == "") resetHighscore(10);
             }
+            DrawParams = ParseHighscore();
         }
         public void UpdateHighscore(KeyValuePair<string, int> newScore)
         {
             AddNewScore(newScore);
             PlayerPrefs.SetString("highscore", highscore);
-        }
-
-        public override System.Object DrawParams
-        {
-            get
-            {
-                return ParseHighscore();
-            }
         }
 
         public void resetHighscore(int length)

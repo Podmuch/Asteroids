@@ -1,30 +1,14 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Asteroids.Interface;
 
 namespace Asteroids.MovableObject.Player
 {
-    public class PlayerModel : MovableObjectModel, IDestructible
+    public class PlayerModel : MovableObjectModel, IPlayer
     {
+        public bool isDestroyed { get; set; }
         public int Lives{get;set;}
-        public int score {get;set;}
+        public int Score {get;set;}
         public bool stopMove { get; set; }
-
-        public override object DrawParams
-        {
-            get 
-            {
-                if(_drawParams==null)
-                    return _drawParams;
-                object tmp = _drawParams;
-                _drawParams = null;
-                return tmp;
-
-            }
-        }
-        private object _drawParams = null;
 
         private float deltaRotate;
         private bool isTurnLeft
@@ -51,8 +35,9 @@ namespace Asteroids.MovableObject.Player
 
         public PlayerModel(Transform _objectTransform)
         {
+            isDestroyed = false;
             Lives = 3;
-            score = 0;
+            Score = 0;
             objectTransform = _objectTransform;
             speed = Vector2.zero;
             maxSpeed = 0.05f;
@@ -89,8 +74,10 @@ namespace Asteroids.MovableObject.Player
         }
         public void Destruct(Texture2D[] explosionTextureArray)
         {
-            _drawParams = explosionTextureArray;
+            DrawParams = explosionTextureArray;
             speed = Vector2.zero;
+            isDestroyed = true;
+            stopMove = true;
             Lives--;
         }
     }

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Asteroids.View;
 
 namespace Asteroids.Highscore
@@ -34,7 +32,7 @@ namespace Asteroids.Highscore
             style = _highscoreStyle;
         }
 
-        public override void Draw(System.Object drawParams){
+        public override bool Draw(System.Object drawParams){
             List<KeyValuePair<string,int>> highscores= drawParams as List<KeyValuePair<string,int>>;
             float recordOffset = 0;
             GUI.Box(new Rect(margin.x, margin.y,size.x, size.y), "Highscore");
@@ -43,6 +41,7 @@ namespace Asteroids.Highscore
                 GUI.Box(new Rect(recordMargin.x, recordMargin.y + recordOffset, recordSize.x, recordSize.y), record.Key + " " + record.Value.ToString());
                 recordOffset += recordSize.y;
             }
+            return false;
         }
     }
 }

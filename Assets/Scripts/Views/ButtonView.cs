@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Asteroids.View;
 
 namespace Asteroids.Button {
@@ -22,11 +20,12 @@ namespace Asteroids.Button {
             style= _buttonStyle;
         }
 
-        public override void Draw(System.Object drawParams)
+        public override bool Draw(System.Object drawParams)
         {
             Action onClick = drawParams as Action;
             if (GUI.Button(new Rect(margin.x, margin.y, size.x, size.y), "", style))
                 onClick();
+            return false;
         }
     }
 }
