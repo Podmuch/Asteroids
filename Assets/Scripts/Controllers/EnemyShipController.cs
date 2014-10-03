@@ -3,13 +3,16 @@ using Asteroids.View.Explosion;
 using Asteroids.Controller;
 using Asteroids.Interface;
 using System.Timers;
+using Asteroids.GamePlay;
+using Asteroids.Model.Sound;
 
 namespace Asteroids.MovableObject.Enemy.EnemyShip
 {
     class EnemyShipController : MovableObjectController, IShooter
     {
-        public Transform bullet;
+        public Transform bullet=null;
         private StaticExplosion explosion;
+        private StaticSound sound;
         private Timer ShootRateTimer;
         private bool isShootActive;
 
@@ -17,6 +20,7 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
         {
             model = new EnemyShipModel(transform, lives);
             explosion = FindObjectOfType<StaticExplosion>();
+            sound = FindObjectOfType<StaticSound>();
             isShootActive = false;
             ShootRateTimer = new Timer(500);
             ShootRateTimer.Elapsed += ShootRate;
@@ -42,6 +46,9 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
         {
             if (isShoot)
             {
+                if (sound.sounds[3].isPlaying)
+                    sound.sounds[3].Stop();
+                sound.sounds[3].Play();
                 Quaternion bulletRotation = transform.rotation;
                 bulletRotation.eulerAngles += new Vector3(0, 0, Random.Range(-45, 45));
                 Transform bulletPointer = (Transform)Instantiate(bullet, transform.position, bulletRotation);
@@ -63,14 +70,19 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
                 switch (other.tag)
                 {
                     case "Bullet":
-                        IPlayer bulletOwner = (other.GetComponent<AbstractController>().model as IBullet).Owner.model as IPlayer;
-                        if (bulletOwner != null&&!(other.GetComponent<AbstractController>().model as IBullet).isDestroyed)
+                        IBullet bulletPointer = other.GetComponent<AbstractController>().model as IBullet;
+                        IPlayer bulletOwner = bulletPointer.Owner.model as IPlayer;
+                        if ((bulletOwner != null || GamePlayController.EnemyFriendlyFire) && !bulletPointer.isDestroyed)
                         {
-                            (other.GetComponent<AbstractController>().model as IBullet).isDestroyed = true;
-                            bulletOwner.Score += ((model as EnemyShipModel).Points * (model as EnemyShipModel).Lives);
+                            bulletPointer.isDestroyed = true;
+                            if (bulletOwner != null)
+                                bulletOwner.Score += ((model as EnemyShipModel).Points * (model as EnemyShipModel).Lives);
                             (model as EnemyShipModel).Destruct(bulletOwner != null ? explosion.blueExplosion : explosion.redExplosion);
                             if ((model as EnemyShipModel).Lives < 1)
+                            {
                                 Destroy(gameObject, 1);
+                                GamePlayController.NumberOfEnemyShipsInGame--;
+                            }
                         }
                         break;
                 }

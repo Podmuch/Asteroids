@@ -8,6 +8,7 @@ namespace Asteroids.MovableObject.Player
         public bool isDestroyed { get; set; }
         public int Lives{get;set;}
         public int Score {get;set;}
+        public bool isUntouchable { get; set; }
         public bool stopMove { get; set; }
 
         private float deltaRotate;
@@ -35,8 +36,9 @@ namespace Asteroids.MovableObject.Player
 
         public PlayerModel(Transform _objectTransform)
         {
+            isUntouchable = true;
             isDestroyed = false;
-            Lives = 3;
+            Lives = 5;
             Score = 0;
             objectTransform = _objectTransform;
             speed = Vector2.zero;

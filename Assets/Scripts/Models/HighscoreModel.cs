@@ -41,37 +41,36 @@ namespace Asteroids.Highscore
         {
             StringBuilder updatedHighscoreBuilder = new StringBuilder();
             string[] parsedHighscore = highscore.Split('*');
-            int iterator = highscore.Length;
+            int iterator = parsedHighscore.Length;
+            bool isAdded= false;
             foreach (string record in parsedHighscore)
             {
-                if (iterator > 0)
-                {
-                    CompareRecords(updatedHighscoreBuilder, record, newScore, iterator);
-                }
+                if (!isAdded)
+                    isAdded =CompareRecords(updatedHighscoreBuilder, record, newScore, ref iterator);
+                else
+                    if (iterator != 1) updatedHighscoreBuilder.Append(record + '*');
+                iterator--;
             }
             highscore = updatedHighscoreBuilder.ToString();
+            highscore = highscore.Substring(0, highscore.Length - 1);
         }
 
-        private void CompareRecords(StringBuilder updatedHighscoreBuilder, string record, KeyValuePair<string, int> newScore, int iterator)
+        private bool CompareRecords(StringBuilder updatedHighscoreBuilder, string record, KeyValuePair<string, int> newScore, ref int iterator)
         {
             string[] recordCells = record.Split('+');
             if (newScore.Value > int.Parse(recordCells[1]))
             {
-                updatedHighscoreBuilder.Append(newScore.Key + '+' + newScore.Value);
+                updatedHighscoreBuilder.Append(newScore.Key + '+' + newScore.Value + '*');
+                if (iterator != 1) updatedHighscoreBuilder.Append(record + '*');
                 iterator--;
-                if (iterator > 0)
-                    updatedHighscoreBuilder.Append('*');
-                else
-                    return;
+                return true;
             }
-            updatedHighscoreBuilder.Append(recordCells[0] + '+' + recordCells[1] + ((iterator > 1) ? '*' : '\0'));
-            iterator--;
+            updatedHighscoreBuilder.Append(record + '*');
+            return false;
         }
 
         private List<KeyValuePair<string, int>> ParseHighscore()
         {
-            if (highscore == "")
-                return null;
             List<KeyValuePair<string, int>> returnDictionary = new List<KeyValuePair<string, int>>();
             foreach (string record in highscore.Split('*'))
             {

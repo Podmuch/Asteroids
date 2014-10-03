@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Asteroids.Interface;
 using Asteroids.View.Explosion;
+using Asteroids.Controller;
 
 namespace Asteroids.MovableObject.Bullet
 {
@@ -17,19 +18,20 @@ namespace Asteroids.MovableObject.Bullet
         protected override void Update()
         {
             base.Update();
-            if ((model as BulletModel).range < 0)
+            if ((model as BulletModel).Range < 0)
                 Death();     
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Death();
+            if(!(other.GetComponent<AbstractController>().model as IDestructible).isDestroyed)
+                Death();
         }
 
         private void Death() 
         {
             (model as BulletModel).Destruct((model as BulletModel).Owner.model as IPlayer != null ? explosion.blueExplosion : explosion.redExplosion);
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.35f);
         }
     }
 }
