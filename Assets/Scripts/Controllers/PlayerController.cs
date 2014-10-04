@@ -51,7 +51,7 @@ namespace Asteroids.MovableObject.Player
         {
             get
             {
-                return Input.GetKey(KeyCode.Space)&&isShootActive&&!(model as PlayerModel).isDestroyed;
+                return isShootActive&&!(model as PlayerModel).isDestroyed;
             }
         }
         public void Shoot()
