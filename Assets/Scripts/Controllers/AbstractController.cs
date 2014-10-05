@@ -9,7 +9,7 @@ namespace Asteroids.Controller
         public AbstractModel model;
         protected AbstractView view;
 
-        protected void OnGUI()
+        protected virtual void OnGUI()
         {
             if (model != null)
                 if (view.Draw(model.DrawParams))

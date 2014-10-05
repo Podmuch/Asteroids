@@ -7,19 +7,17 @@ namespace Asteroids.MovableObject
     public abstract class MovableObjectController : AbstractController
     {
         public Texture2D[] textureArray;
-        private Timer moveRateTimer;
-        private bool isMoveActive;
+        private bool isMoveActive
+        {
+            get
+            {
+                return Time.realtimeSinceStartup - lastMove > 0.01f;
+            }
+        }
+        private float lastMove { get; set; }
         protected virtual void Awake()
         {
             view = new MovableObjectView(renderer, textureArray);
-            moveRateTimer = new Timer(10);
-            moveRateTimer.Elapsed += MoveRate;
-            moveRateTimer.Start();
-        }
-
-        private void MoveRate(object sender, ElapsedEventArgs e)
-        {
-            isMoveActive = true;
         }
 
         protected virtual void Update()
@@ -27,8 +25,14 @@ namespace Asteroids.MovableObject
             if (isMoveActive&&model!=null)
             {
                 (model as MovableObjectModel).Move();
-                isMoveActive = false;
+                lastMove = Time.realtimeSinceStartup;
+                if (view.Draw(model.DrawParams))
+                    model.DrawParams = null;
             }
+        }
+        protected override void OnGUI()
+        {
+            
         }
     }
 }

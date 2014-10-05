@@ -11,8 +11,6 @@ namespace Asteroids.MovableObject.Player
     public class PlayerController : MovableObjectController, IShooter
     {
         public Transform bullet;
-        private Timer ShootRateTimer;
-        private bool isShootActive;
         private Timer DyingAnimationTimer;
         private StaticExplosion explosion;
         private StaticSound sound;
@@ -23,12 +21,8 @@ namespace Asteroids.MovableObject.Player
         {
             base.Awake();
             model = new PlayerModel(transform);
-            isShootActive = false;
             explosion = FindObjectOfType<StaticExplosion>();
             sound = FindObjectOfType<StaticSound>();
-            ShootRateTimer = new Timer(500);
-            ShootRateTimer.Elapsed += ShootRate;
-            ShootRateTimer.Start();
             DyingAnimationTimer = new Timer(500);
             DyingAnimationTimer.Elapsed += AnimationTime;
             UntouchableTimeMax = 5.00f;
@@ -46,12 +40,12 @@ namespace Asteroids.MovableObject.Player
                 BonusLive();
             }
         }
-
+        public float lastShoot { get; set; }
         public bool isShoot
         {
             get
             {
-                return isShootActive&&!(model as PlayerModel).isDestroyed;
+                return !(model as PlayerModel).isDestroyed && Time.realtimeSinceStartup-lastShoot> 0.5f;
             }
         }
         public void Shoot()
@@ -64,13 +58,8 @@ namespace Asteroids.MovableObject.Player
                 Transform bulletPointer=(Transform)Instantiate(bullet, transform.position, transform.rotation);
                 (bulletPointer.GetComponent<AbstractController>().model as IBullet).Owner = this;
                 bulletPointer.Translate(0, 0.5f, 0);
-                isShootActive = false;
+                lastShoot = Time.realtimeSinceStartup;
             }
-        }
-
-        public void ShootRate(object sender, ElapsedEventArgs e)
-        {
-            isShootActive = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

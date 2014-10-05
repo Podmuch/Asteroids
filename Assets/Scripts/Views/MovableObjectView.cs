@@ -9,28 +9,29 @@ namespace Asteroids.MovableObject
         private Texture2D[] textureArray;
         private Renderer renderer;
         private int currentTexture;
-        private Timer textureChangeRateTimer;
-        private bool isChangeTextureAvailable;
+        private float lastChangeTexture;
+        private float changeTextureRate;
+        private bool isChangeTextureAvailable
+        {
+            get
+            {
+                return Time.realtimeSinceStartup - lastChangeTexture > changeTextureRate;
+            }
+        }
 
         public MovableObjectView(Renderer _renderer, Texture2D[] _textureArray)
         {
             renderer = _renderer;
             textureArray = _textureArray;
             currentTexture = 0;
-            textureChangeRateTimer = new Timer(50);
-            textureChangeRateTimer.Elapsed += TextureRate;
-            textureChangeRateTimer.Start();
+            changeTextureRate = 0.05f;
         }
 
         public void ResetView(Texture2D[] _textureArray)
         {
             textureArray = _textureArray;
             currentTexture = 0;
-            textureChangeRateTimer.Interval = 50;
-        }
-        private void TextureRate(object sender, ElapsedEventArgs e)
-        {
-            isChangeTextureAvailable = true;
+            changeTextureRate = 0.05f;
         }
 
         public override bool Draw(System.Object drawParams)
@@ -42,13 +43,13 @@ namespace Asteroids.MovableObject
                 {
                     textureArray = drawParams as Texture2D[];
                     currentTexture = 0;
-                    textureChangeRateTimer.Interval = 30;
+                    changeTextureRate = 0.03f;
                     drawParams = null;
                     returnValue = true;
                 }
                 renderer.material.mainTexture=textureArray[currentTexture];
                 currentTexture = (currentTexture + 1) % textureArray.Length;
-                isChangeTextureAvailable = false;
+                lastChangeTexture = Time.realtimeSinceStartup;
             }
             return returnValue;
         }

@@ -13,18 +13,12 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
         public Transform bullet=null;
         private StaticExplosion explosion;
         private StaticSound sound;
-        private Timer ShootRateTimer;
-        private bool isShootActive;
 
         public void AddModel(int lives)
         {
             model = new EnemyShipModel(transform, lives);
             explosion = FindObjectOfType<StaticExplosion>();
             sound = FindObjectOfType<StaticSound>();
-            isShootActive = false;
-            ShootRateTimer = new Timer(500);
-            ShootRateTimer.Elapsed += ShootRate;
-            ShootRateTimer.Start();
         }
 
         protected override void Update()
@@ -33,12 +27,12 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
             base.Update();
             Shoot();
         }
-
+        public float lastShoot { get; set; }
         public bool isShoot
         {
             get
             {
-                return isShootActive && !(model as EnemyShipModel).isDestroyed;
+                return !(model as EnemyShipModel).isDestroyed && Time.realtimeSinceStartup - lastShoot > 0.5f;
             }
         }
 
@@ -54,13 +48,8 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
                 Transform bulletPointer = (Transform)Instantiate(bullet, transform.position, bulletRotation);
                 (bulletPointer.GetComponent<AbstractController>().model as IBullet).Owner = this;
                 bulletPointer.Translate(0, 0.5f, 0);
-                isShootActive = false;
+                lastShoot = Time.realtimeSinceStartup;
             }
-        }
-
-        public void ShootRate(object sender, ElapsedEventArgs e)
-        {
-            isShootActive = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

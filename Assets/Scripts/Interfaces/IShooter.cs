@@ -5,8 +5,8 @@ namespace Asteroids.Interface
 {
     public interface IShooter
     {
+        float lastShoot { get; set; }
         bool isShoot {get;}
-        void ShootRate(object sender, ElapsedEventArgs e);
         void Shoot();
     }
 }
