@@ -10,6 +10,6 @@ namespace Asteroids.Interface
     {
         int Lives { get; set; }
         bool isDestroyed { get; set; }
-        void Destruct(Texture2D[] explosionTextureArray);
+        void Destruct(Sprite[] explosionSpriteArray);
     }
 }

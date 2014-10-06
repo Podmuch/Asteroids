@@ -118,9 +118,9 @@ namespace Asteroids.MovableObject.Player
             Wrapping();
         }
         //stops move, draws explosion and set that object is destroyed
-        public void Destruct(Texture2D[] explosionTextureArray)
+        public void Destruct(Sprite[] explosionSpriteArray)
         {
-            DrawParams = explosionTextureArray;
+            DrawParams = explosionSpriteArray;
             speed = Vector2.zero;
             isDestroyed = true;
             stopMove = true;

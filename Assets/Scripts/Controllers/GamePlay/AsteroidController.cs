@@ -12,7 +12,7 @@ namespace Asteroids.MovableObject.Enemy.Asteroid
     //inherits from base abstract class for all MovableObject Controllers (movement and drawing)
     public class AsteroidController : MovableObjectController
     {
-        //static explosions (textures imitating explosion). 
+        //static explosions (sprites imitating explosion). 
         //This could have been in MovableObjectController because it is repeated in each inheriting controller,
         // but not every moving object must explode (as it is currently)
         private StaticExplosion explosion;
@@ -35,7 +35,7 @@ namespace Asteroids.MovableObject.Enemy.Asteroid
                     Transform pieceOfAsteroid = (Transform)Instantiate(transform, transform.position, transform.rotation);
                     pieceOfAsteroid.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
                     //localScale should be reset before adding model becouse It's multiplied by the number of lives
-                    pieceOfAsteroid.transform.localScale = new Vector3(1, 1, 1);
+                    pieceOfAsteroid.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     pieceOfAsteroid.gameObject.GetComponent<AsteroidController>().AddModel((model as AsteroidModel).Lives);
                     //static variable containing a number of asteroids on the scene (prevents the creation of new asteroids)
                     GamePlayController.NumberOfAsteroidsInGame++;

@@ -8,8 +8,8 @@ namespace Asteroids.MovableObject
     //inherits from base abstract class for all Controllers (drawing)
     public abstract class MovableObjectController : AbstractController
     {
-        //texture array for animations
-        public Texture2D[] textureArray;
+        //sprite array for animations
+        public Sprite[] spriteArray;
         //dependence of movement and time
         private bool isMoveActive
         {
@@ -22,7 +22,7 @@ namespace Asteroids.MovableObject
         private float lastMove { get; set; }
         protected virtual void Awake()
         {
-            view = new MovableObjectView(renderer, textureArray);
+            view = new MovableObjectView(renderer, spriteArray);
         }
 
         //movement and drawing (Abstract Controller draw in OnGUI function)

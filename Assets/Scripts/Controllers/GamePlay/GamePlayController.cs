@@ -26,6 +26,8 @@ namespace Asteroids.GamePlay
         //Asteroid and EnemyShip prefabs
         public Transform asteroidPointer;
         public Transform enemyShipPointer;
+        //Player prefab
+        public Transform playerPointer;
         //background image
         public Transform backgroundImage;
         //Spawn Timers
@@ -54,6 +56,9 @@ namespace Asteroids.GamePlay
 
         private void Start()
         {
+            //create player
+            Instantiate(playerPointer, Vector3.zero, transform.rotation);
+            //create GamePlay model
             model = new GamePlayModel(FindObjectOfType<PlayerController>().model);
             //adapts gameplay to screen resolution
             view = new GamePlayView(backgroundImage);

@@ -38,9 +38,9 @@ namespace Asteroids.MovableObject.Bullet
         }
         
         //animation
-        public void Destruct(Texture2D[] explosionTextureArray) 
+        public void Destruct(Sprite[] explosionSpriteArray) 
         {
-            DrawParams = explosionTextureArray;
+            DrawParams = explosionSpriteArray;
             speed = Vector2.zero;
         }
     }

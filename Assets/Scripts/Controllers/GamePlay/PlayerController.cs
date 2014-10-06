@@ -20,7 +20,7 @@ namespace Asteroids.MovableObject.Player
         public Transform bullet;
         //Timer allows complete animation of dying and spawn player back
         private Timer DyingAnimationTimer;
-        //static explosions (textures imitating explosion). 
+        //static explosions (sprites imitating explosion). 
         //This could have been in MovableObjectController because it is repeated in each inheriting controller,
         // but not every moving object must explode (as it is currently)
         private StaticExplosion explosion;
@@ -120,16 +120,16 @@ namespace Asteroids.MovableObject.Player
                 UntouchableTime -= Time.deltaTime;
                 //animation
                 if (UntouchableTime - Mathf.Floor(UntouchableTime) > 0.5f)
-                    renderer.material.color -= new Color(0.5f, 0.5f, 0.5f, 0.0f);
+                    (renderer as SpriteRenderer).color -= new Color(0.1f, 0.1f, 0.1f, 0.0f);
                 else
-                    renderer.material.color += new Color(0.5f, 0.5f, 0.5f, 0.0f);
+                    (renderer as SpriteRenderer).color += new Color(0.1f, 0.1f, 0.1f, 0.0f);
             }
             else
                 //back to normal colors and disable untouchable
                 if ((model as PlayerModel).isUntouchable)
                 {
                     (model as PlayerModel).isUntouchable = false;
-                    renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    (renderer as SpriteRenderer).color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                 }
         }
         private void Death()
@@ -142,7 +142,7 @@ namespace Asteroids.MovableObject.Player
         private void AnimationTime(object sender, ElapsedEventArgs e)
         {
             (model as PlayerModel).stopMove = false;
-            (view as MovableObjectView).ResetView(textureArray);
+            (view as MovableObjectView).ResetView(spriteArray);
             (model as PlayerModel).isDestroyed = false;
             DyingAnimationTimer.Stop();
             UntouchableTime = UntouchableTimeMax + 0.01f;

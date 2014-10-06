@@ -13,9 +13,9 @@ namespace Asteroids.MovableObject.Enemy
         public int Points { get; set; }
         public int Lives { get; set; }
 
-        public void Destruct(Texture2D[] explosionTextureArray)
+        public void Destruct(Sprite[] explosionSpriteArray)
         {
-            DrawParams = explosionTextureArray;
+            DrawParams = explosionSpriteArray;
             isDestroyed = true;
             Lives--;
             speed = Vector2.zero;

@@ -18,7 +18,7 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
         public Transform bullet=null;
         //Explosion prefab <- particle system
         public Transform firstExplosion = null;
-        //static explosions (textures imitating explosion). 
+        //static explosions (sprites imitating explosion). 
         //This could have been in MovableObjectController because it is repeated in each inheriting controller,
         // but not every moving object must explode (as it is currently)
         private StaticExplosion finalExplosion;

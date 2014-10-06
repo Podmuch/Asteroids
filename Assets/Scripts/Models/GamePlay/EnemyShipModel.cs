@@ -25,10 +25,10 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
         }
 
         //change size (first life lost) or destruct (second life lost)
-        new public void Destruct(Texture2D[] explosionTextureArray)
+        new public void Destruct(Sprite[] explosionSpriteArray)
         {
             if (Lives == 1)
-                base.Destruct(explosionTextureArray);
+                base.Destruct(explosionSpriteArray);
             else
             {
                 Lives--;

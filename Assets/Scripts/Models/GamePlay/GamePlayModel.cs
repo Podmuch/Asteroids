@@ -40,7 +40,8 @@ namespace Asteroids.GamePlay
         public void SetRandomRotation(ref Transform _newObject)
         {
  	        _newObject.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-            _newObject.transform.localScale = new Vector3(1, 1, 1);
+            //normal scale
+            _newObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
 }
