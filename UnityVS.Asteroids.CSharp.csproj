@@ -22,7 +22,7 @@
     <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -49,36 +49,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Controllers\AbstractController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\AsteroidController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\BulletController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\EnemyShipController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\GamePlayController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\HighscoreController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\MovableObjectController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\PlayButtonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\AsteroidController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\BulletController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\EnemyShipController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\ExplosionController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\GamePlayController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\MovableObjectController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GamePlay\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Menu\HighscoreController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Menu\MenuController.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IBullet.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDestructible.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemy.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlayer.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IShooter.cs" />
     <Compile Include="Assets\Scripts\Models\AbstractModel.cs" />
-    <Compile Include="Assets\Scripts\Models\AsteroidModel.cs" />
-    <Compile Include="Assets\Scripts\Models\BulletModel.cs" />
-    <Compile Include="Assets\Scripts\Models\ButtonModel.cs" />
-    <Compile Include="Assets\Scripts\Models\EnemyModel.cs" />
-    <Compile Include="Assets\Scripts\Models\EnemyShipModel.cs" />
-    <Compile Include="Assets\Scripts\Models\GamePlayModel.cs" />
-    <Compile Include="Assets\Scripts\Models\HighscoreModel.cs" />
-    <Compile Include="Assets\Scripts\Models\MovableObjectModel.cs" />
-    <Compile Include="Assets\Scripts\Models\PlayerModel.cs" />
-    <Compile Include="Assets\Scripts\Models\StaticSound.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\AsteroidModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\BulletModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\EnemyModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\EnemyShipModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\GamePlayModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\MovableObjectModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\PlayerModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GamePlay\StaticSound.cs" />
+    <Compile Include="Assets\Scripts\Models\Menu\HighscoreModel.cs" />
+    <Compile Include="Assets\Scripts\Models\Menu\MenuModel.cs" />
     <Compile Include="Assets\Scripts\Views\AbstractView.cs" />
-    <Compile Include="Assets\Scripts\Views\ButtonView.cs" />
-    <Compile Include="Assets\Scripts\Views\GamePlayView.cs" />
-    <Compile Include="Assets\Scripts\Views\HighscoreView.cs" />
-    <Compile Include="Assets\Scripts\Views\MovableObjectView.cs" />
-    <Compile Include="Assets\Scripts\Views\StaticExplosion.cs" />
+    <Compile Include="Assets\Scripts\Views\GamePlay\GamePlayView.cs" />
+    <Compile Include="Assets\Scripts\Views\GamePlay\MovableObjectView.cs" />
+    <Compile Include="Assets\Scripts\Views\GamePlay\StaticExplosion.cs" />
+    <Compile Include="Assets\Scripts\Views\Menu\HighscoreView.cs" />
+    <Compile Include="Assets\Scripts\Views\Menu\MenuView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
