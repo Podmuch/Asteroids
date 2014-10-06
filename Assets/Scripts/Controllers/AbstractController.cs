@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using Asteroids.Model;
-using Asteroids.View;
+﻿//Abstract Controller
+//  base controller for all controllers
+//  gets parameters from model and send it to view
+using UnityEngine;
 
-namespace Asteroids.Controller
+namespace Asteroids
 {
     public abstract class AbstractController : MonoBehaviour
     {

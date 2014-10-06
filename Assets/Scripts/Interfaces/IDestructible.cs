@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//Interface for destructible objects (model Interface)
+//  destruct method (params to explosion animation)
+//  provides information is object destroyed
+//  contains Lives
+using UnityEngine;
 
 namespace Asteroids.Interface
 {

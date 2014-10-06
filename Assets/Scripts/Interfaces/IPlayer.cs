@@ -1,4 +1,6 @@
-﻿namespace Asteroids.Interface
+﻿//Interface for player (model Interface)
+//  contains score, flag for touchable and implement IDestructible interface (player is destructible)
+namespace Asteroids.Interface
 {
     public interface IPlayer : IDestructible
     {
