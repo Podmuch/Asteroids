@@ -2,7 +2,6 @@
 //  controls new enemies spawn
 //  handles end of the game
 using UnityEngine;
-using System.Timers;
 using Asteroids.MovableObject.Player;
 using Asteroids.MovableObject.Enemy.Asteroid;
 using Asteroids.MovableObject.Enemy.EnemyShip;
@@ -30,28 +29,21 @@ namespace Asteroids.GamePlay
         public Transform playerPointer;
         //background image
         public Transform backgroundImage;
-        //Spawn Timers
-        private Timer asteroidsSpawnTimer;
-        private Timer enemyShipSpawnTimer;
         
         //stopping spawns 
         private bool isEndGame;
         //Score which is send to highscore
         private int lastScore;
+        //Timers
+        private float EnemyShipsSpawnTime = 15.0f, AsteroidsSpawnTime = 5.0f;
         private void Awake()
         {
             PlayerFriendlyFire = false;
             EnemyFriendlyFire = false ;
             isEndGame = false;
-            asteroidsSpawnTimer = new Timer(5000);
-            asteroidsSpawnTimer.Elapsed+= AsteroidsSpawnTimer_Tick;
             NumberOfAsteroidsInGame = 0;
-            asteroidsSpawnTimer.Start();
 
-            enemyShipSpawnTimer = new Timer(15000);
-            enemyShipSpawnTimer.Elapsed += EnemyShipSpawnTimer_Tick;
             NumberOfEnemyShipsInGame = 0;
-            enemyShipSpawnTimer.Start();
         }
 
         private void Start()
@@ -71,6 +63,20 @@ namespace Asteroids.GamePlay
         {
             if (!isEndGame)
             {
+                if (EnemyShipsSpawnTime < 0.0f)
+                {
+                    (model as GamePlayModel).isEnemyShipsReadyToSpawn = true;
+                    EnemyShipsSpawnTime = 15.0f;
+                }
+                else
+                    EnemyShipsSpawnTime -= Time.deltaTime;
+                if (AsteroidsSpawnTime < 0.0f)
+                {
+                    (model as GamePlayModel).isAsteroidsReadyToSpawn = true;
+                    AsteroidsSpawnTime = 15.0f;
+                }
+                else
+                    AsteroidsSpawnTime -= Time.deltaTime;
                 AsteroidsSpawn();
                 EnemyShipsSpawn();
                 EndGame();
@@ -81,8 +87,6 @@ namespace Asteroids.GamePlay
         {
             if ((model.DrawParams as IPlayer).Lives == 0)
             {
-                enemyShipSpawnTimer.Stop();
-                asteroidsSpawnTimer.Stop();
                 isEndGame = true;
                 lastScore = (model.DrawParams as IPlayer).Score;
                 //stop displaying points and lives and start displaying final window
@@ -95,15 +99,6 @@ namespace Asteroids.GamePlay
             HighscoreModel highscore = new HighscoreModel();
             highscore.UpdateHighscore(new KeyValuePair<string, int>(_nick, lastScore));
             Application.LoadLevel(0);
-        }
-        private void EnemyShipSpawnTimer_Tick(object sender, ElapsedEventArgs e)
-        {
-            (model as GamePlayModel).isEnemyShipsReadyToSpawn = true;
-        }
-
-        private void AsteroidsSpawnTimer_Tick(object sender, ElapsedEventArgs e)
-        {
-            (model as GamePlayModel).isAsteroidsReadyToSpawn = true;
         }
 
         private void EnemyShipsSpawn()

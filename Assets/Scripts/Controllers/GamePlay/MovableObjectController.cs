@@ -1,7 +1,6 @@
 ﻿//MovableObject Controller
 //  base abstract controller for all movableObjects
 using UnityEngine;
-using System.Timers;
 
 namespace Asteroids.MovableObject
 {

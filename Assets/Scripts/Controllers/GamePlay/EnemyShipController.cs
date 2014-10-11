@@ -4,7 +4,6 @@
 //  provides shooting
 using UnityEngine;
 using Asteroids.Interface;
-using System.Timers;
 using Asteroids.GamePlay;
 using Asteroids.Static;
 
@@ -54,9 +53,12 @@ namespace Asteroids.MovableObject.Enemy.EnemyShip
             if (isShoot)
             {
                 //sound (different than player)
-                if (sound.sounds[3].isPlaying)
-                    sound.sounds[3].Stop();
-                sound.sounds[3].Play();
+                if (sound.isSoundOn)
+                {
+                    if (sound.sounds[3].isPlaying)
+                        sound.sounds[3].Stop();
+                    sound.sounds[3].Play();
+                }
                 //creates new bullets (angle shooting is random from range -45, 45 degrees)
                 Quaternion bulletRotation = transform.rotation;
                 bulletRotation.eulerAngles += new Vector3(0, 0, Random.Range(-45, 45));

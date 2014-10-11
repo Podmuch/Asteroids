@@ -1,7 +1,6 @@
 ﻿//MovableObject view (the same for all movable Objects)
 //  getting parameters from model and change sprites in renderer <-animation
 using UnityEngine;
-using System.Timers;
 
 namespace Asteroids.MovableObject
 {

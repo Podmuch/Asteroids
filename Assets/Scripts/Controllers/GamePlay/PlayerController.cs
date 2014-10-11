@@ -5,7 +5,6 @@
 //  provides Untouchable in first seconds after death
 //  counts score
 using UnityEngine;
-using System.Timers;
 using Asteroids.Interface;
 using Asteroids.Static;
 using Asteroids.GamePlay;
@@ -19,7 +18,7 @@ namespace Asteroids.MovableObject.Player
         //Bullet prefab
         public Transform bullet;
         //Timer allows complete animation of dying and spawn player back
-        private Timer DyingAnimationTimer;
+        private float DyingAnimationTime;
         //static explosions (sprites imitating explosion). 
         //This could have been in MovableObjectController because it is repeated in each inheriting controller,
         // but not every moving object must explode (as it is currently)
@@ -37,8 +36,6 @@ namespace Asteroids.MovableObject.Player
             model = new PlayerModel(transform);
             explosion = FindObjectOfType<StaticExplosion>();
             sound = FindObjectOfType<StaticSound>();
-            DyingAnimationTimer = new Timer(500);
-            DyingAnimationTimer.Elapsed += AnimationTime;
             UntouchableTimeMax = 5.00f;
             UntouchableTime = UntouchableTimeMax+0.01f;
             lastScoreInLiveBonus = 0;
@@ -49,6 +46,10 @@ namespace Asteroids.MovableObject.Player
             if ((model as PlayerModel).Lives > 0)
             {
                 base.Update();
+                if (DyingAnimationTime < 0.0f && (model as PlayerModel).isDestroyed)
+                    AnimationTime();
+                else
+                    DyingAnimationTime -= Time.deltaTime;
                 Shoot();
                 Untouchable();
                 BonusLive();
@@ -69,9 +70,12 @@ namespace Asteroids.MovableObject.Player
             if(isShoot)
             {
                 //sound (different than enemyship)
-                if (sound.sounds[2].isPlaying)
-                    sound.sounds[2].Stop();
-                sound.sounds[2].Play();
+                if (sound.isSoundOn)
+                {
+                    if (sound.sounds[2].isPlaying)
+                        sound.sounds[2].Stop();
+                    sound.sounds[2].Play();
+                }
                 //player shoots forward
                 Transform bulletPointer=(Transform)Instantiate(bullet, transform.position, transform.rotation);
                 //set owner of the bullet
@@ -135,16 +139,15 @@ namespace Asteroids.MovableObject.Player
         private void Death()
         {
             (model as PlayerModel).Destruct(explosion.redExplosion);
-            DyingAnimationTimer.Start();
+            DyingAnimationTime = 0.5f;
         }
 
         //restore previous settings and set untouchable
-        private void AnimationTime(object sender, ElapsedEventArgs e)
+        private void AnimationTime()
         {
             (model as PlayerModel).stopMove = false;
             (view as MovableObjectView).ResetView(spriteArray);
             (model as PlayerModel).isDestroyed = false;
-            DyingAnimationTimer.Stop();
             UntouchableTime = UntouchableTimeMax + 0.01f;
             (model as PlayerModel).isUntouchable = true;
         }

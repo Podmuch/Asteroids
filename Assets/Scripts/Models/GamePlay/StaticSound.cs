@@ -5,12 +5,17 @@ namespace Asteroids.Static
 {
     public class StaticSound : MonoBehaviour
     {
+        public bool isSoundOn;
         public AudioSource[] sounds;
 
         private void Awake()
         {
+            isSoundOn = PlayerPrefs.GetInt("sound") == 1;
             //soundtrack
-            sounds[0].Play();
+            if (isSoundOn)
+                sounds[0].Play();
+            else
+                sounds[0].Stop();
             //alternative soundtrack <-not used
             sounds[1].Stop();
             //player shoot
